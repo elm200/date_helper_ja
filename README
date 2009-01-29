@@ -1,0 +1,5 @@
+= DateHelperJa
+
+== インストール
+
+ % ./script/plugin install git://github.com/elm200/date_helper_ja.git
