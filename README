@@ -3,3 +3,7 @@
 == インストール
 
  % ./script/plugin install git://github.com/elm200/date_helper_ja.git
+
+== 和暦への対応
+
+f.date_select :date_of_birth, :use_era_name => true
