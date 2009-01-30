@@ -1,13 +1,49 @@
-= DateHelperJa プラグイン(Rails 2.2.2用)
+= DateHelperJa プラグイン
+
+== DateHelperJa とは
+
+ActionView::Helpers::DateHelper を日本語化する。
+DateFormJa をプラグインとしてインストールするだけで、datetime_select,date_selectが日本語表示される。
 
 == インストール
 
  % ./script/plugin install git://github.com/elm200/date_helper_ja.git
 
-対応する Rails のバージョンを指定してインストールする場合は 
+== 使用例
 
- % ./script/plugin install git://github.com/elm200/date_helper_ja.git -r 'tag x.x.x' (x.x.x は対応する Rails のバージョン番号)
+datetime_select("model", "attr") 
+# =>"2009年 4月 29日 13時 14分"
 
-== 和暦への対応
+オリジナルの振る舞いに戻したいときは、:use_jp_xxx (xxx = year, month, day, hour, minute, second) というオプションを false に設定する。
 
-f.date_select :date_of_birth, :use_era_name => true
+datetime_select("model", "attr", :use_jp_hour => false, :use_jp_minute => false)
+# => "2009年 4月 29日 13:14"
+
+:user_era_name というオプションを true にすることで和暦を表示する。
+
+datetime_select("model", "attr", :use_era_name => true)
+# => "平成21年 4月 29日 13:14"
+
+さらに :era_format というオプションで和暦の表示スタイルを指定できる。
+:ja_long(デフォルト値), :ja_short, :alpha が指定可能。
+
+datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_long)
+# => "平成21年 4月 29日 13:14"
+
+datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_short)
+# => "平21年 4月 29日 13:14"
+
+datetime_select("model", "attr", :use_era_name => true, :era_format => :alpha)
+# => "H21年 4月 29日 13:14"
+
+== リンク
+
+* Rails 1.x.x に対応した DateHelperJa 旧バージョン: http://d.hatena.ne.jp/elm200/20070430/1177814782
+ 
+== 作者
+ 
+Copyright 2006 (c) Eiji Sakai, under MIT License.
+
+Eiji Sakai <eiji.sakai@softculture.com>
+ 
+http://d.hatena.ne.jp/elm200/

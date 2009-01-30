@@ -12,6 +12,7 @@ module ActionView
     class DateTimeSelector
       def initialize_with_jp_time_unit(datetime, options = {}, html_options = {})
         options.update(:use_month_numbers => true) if options[:use_jp_month] != false
+        options[:era_format] ||= 'ja_long'
         @options      = options.dup
         @html_options = html_options.dup
         @datetime     = datetime
@@ -49,33 +50,37 @@ module ActionView
           select_options.join("\n") + "\n"
         end
 
-        # def year_with_era_name(year)
-        #   if year < 1989
-        #     "昭和#{year - 1925}年"
-        #   elsif year == 1989
-        #     "昭和64年/平成元年"
-        #   else
-        #     "平成#{year - 1988}年"
-        #   end
-        # end
-
         def year_with_era_name(year)
+          case @options[:era_format]
+          when 'ja_short'
+            era_formats = {:M => "明%d", :T => "大%d", :S => "昭%d", :H => "平%d"}
+            era_first_years = {:M => '明1', :T => '明45/大1', :S => '大15/昭1', :H => '昭64/平1'}
+          when 'alpha'
+            era_formats = {:M => "M%d", :T => "T%d", :S => "S%d", :H => "H%d"}
+            era_first_years = {:M => 'M1', :T => 'M45/T1', :S => 'T15/S1', :H => 'S64/H1'}
+          else # when 'ja_long' or others
+            era_formats = {:M => "明治%d年", :T => "大正%d年", :S => "昭和%d年", :H => "平成%d年"}
+            era_first_years = {:M => '明治元年', :T => '㍾45年/㍽元年', :S => '㍽15年/㍼元年', :H => '㍼64年/㍻元年'}
+          end
+
           if year < 1868
-            "--"
+            year
+          elsif year == 1868
+            era_first_years[:M]
           elsif year < 1912
-            "M#{year - 1867}"
+            era_formats[:M] % (year - 1867)
           elsif year == 1912
-            "M45/T1"
+            era_first_years[:T]
           elsif year < 1926
-            "T#{year - 1911}"
+            era_formats[:T] % (year - 1911)
           elsif year == 1926
-            "T15/S1"
+            era_first_years[:S]
           elsif year < 1989
-            "S#{year - 1925}"
+            era_formats[:S] % (year - 1925)
           elsif year == 1989
-            "S64/H1"
+            era_first_years[:H]
           else
-            "H#{year - 1988}"
+            era_formats[:H] % (year - 1988)
           end
         end
 
@@ -101,27 +106,30 @@ module ActionView
 
         def separator_with_jp_time_unit(type)
           case type
-            when :month, :day
-              @options[:date_separator]
-            when :hour
-              (@options[:discard_year] && @options[:discard_day]) ? "" : (@options[:use_jp_hour] == false ? @options[:datetime_separator] : " ")
-            when :minute
-              @options[:use_jp_hour] == false ? @options[:time_separator] : ""
-            when :second
-              @options[:include_seconds] ? (@options[:use_jp_minute] == false ? @options[:time_separator] : "") : ""
+          when :month, :day
+            @options[:date_separator]
+          when :hour
+            (@options[:discard_year] && @options[:discard_day]) ? "" : (@options[:use_jp_hour] == false ? @options[:datetime_separator] : " ")
+          when :minute
+            @options[:use_jp_hour] == false ? @options[:time_separator] : ""
+          when :second
+            @options[:include_seconds] ? (@options[:use_jp_minute] == false ? @options[:time_separator] : "") : ""
           end
         end
         alias_method_chain :separator, :jp_time_unit
 
         def time_unit(type)
           case type
-#            when :year then "年" if @options[:use_era_name] != true
-            when :year then @options[:use_jp_year] != false ? '年' : ''
-            when :month then @options[:use_jp_month] != false ? '月' : ''
-            when :day then @options[:use_jp_day] != false ? '日' : ''
-            when :hour then @options[:use_jp_hour] != false ? '時' : ''
-            when :minute then @options[:use_jp_minute] != false ? '分' : ''
-            when :second then @options[:use_jp_second] != false ? '秒' : ''
+          when :year
+            return '' if @options[:use_jp_year] == false
+            return '年' if @options[:use_era_name] != true
+            return '' if @options[:era_format] == 'ja_long'
+            return '年'
+          when :month then @options[:use_jp_month] != false ? '月' : ''
+          when :day then @options[:use_jp_day] != false ? '日' : ''
+          when :hour then @options[:use_jp_hour] != false ? '時' : ''
+          when :minute then @options[:use_jp_minute] != false ? '分' : ''
+          when :second then @options[:use_jp_second] != false ? '秒' : ''
           end
         end
     end
