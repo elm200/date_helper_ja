@@ -33,7 +33,7 @@ datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_long)
 datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_short)
 # => "平21年 4月 29日 13:14"
 
-datetime_select("model", "attr", :use_era_name => true, :era_format => :alpha)
+datetime_select("model", "attr", :use_era_name => true, :era_format => :alphabet)
 # => "H21年 4月 29日 13:14"
 
 == リンク

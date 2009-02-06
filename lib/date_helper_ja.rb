@@ -12,7 +12,7 @@ module ActionView
     class DateTimeSelector
       def initialize_with_jp_time_unit(datetime, options = {}, html_options = {})
         options.update(:use_month_numbers => true) if options[:use_jp_month] != false
-        options[:era_format] ||= 'ja_long'
+        options[:era_format] ||= :ja_long
         @options      = options.dup
         @html_options = html_options.dup
         @datetime     = datetime
@@ -52,13 +52,13 @@ module ActionView
 
         def year_with_era_name(year)
           case @options[:era_format]
-          when 'ja_short'
+          when :ja_short
             era_formats = {:M => "明%d", :T => "大%d", :S => "昭%d", :H => "平%d"}
             era_first_years = {:M => '明1', :T => '明45/大1', :S => '大15/昭1', :H => '昭64/平1'}
-          when 'alpha'
+          when :alphabet
             era_formats = {:M => "M%d", :T => "T%d", :S => "S%d", :H => "H%d"}
             era_first_years = {:M => 'M1', :T => 'M45/T1', :S => 'T15/S1', :H => 'S64/H1'}
-          else # when 'ja_long' or others
+          else # when :ja_long or others
             era_formats = {:M => "明治%d年", :T => "大正%d年", :S => "昭和%d年", :H => "平成%d年"}
             era_first_years = {:M => '明治元年', :T => '㍾45年/㍽元年', :S => '㍽15年/㍼元年', :H => '㍼64年/㍻元年'}
           end
@@ -123,7 +123,7 @@ module ActionView
           when :year
             return '' if @options[:use_jp_year] == false
             return '年' if @options[:use_era_name] != true
-            return '' if @options[:era_format] == 'ja_long'
+            return '' if @options[:era_format] == :ja_long
             return '年'
           when :month then @options[:use_jp_month] != false ? '月' : ''
           when :day then @options[:use_jp_day] != false ? '日' : ''

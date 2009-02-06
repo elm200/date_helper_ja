@@ -219,8 +219,8 @@ class DateHelperJaTest < Test::Unit::TestCase
     expected << %(<option value=\"1988\">昭63</option>\n<option selected=\"selected\" value=\"1989\">昭64/平1</option>\n<option value=\"1990\">平2</option>\n)
     expected << "</select>年\n"
 
-    assert_equal expected, select_year(Time.mktime(1989, 8, 16), :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => 'ja_short')
-    assert_equal expected, select_year(1989, :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => 'ja_short')
+    assert_equal expected, select_year(Time.mktime(1989, 8, 16), :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => :ja_short)
+    assert_equal expected, select_year(1989, :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => :ja_short)
   end
 
   def test_select_year_with_alpha_era_format
@@ -228,7 +228,7 @@ class DateHelperJaTest < Test::Unit::TestCase
     expected << %(<option value=\"1988\">S63</option>\n<option selected=\"selected\" value=\"1989\">S64/H1</option>\n<option value=\"1990\">H2</option>\n)
     expected << "</select>年\n"
 
-    assert_equal expected, select_year(Time.mktime(1989, 8, 16), :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => 'alpha')
-    assert_equal expected, select_year(1989, :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => 'alpha')
+    assert_equal expected, select_year(Time.mktime(1989, 8, 16), :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => :alphabet)
+    assert_equal expected, select_year(1989, :start_year => 1988, :end_year => 1990, :use_era_name => true, :era_format => :alphabet)
   end
 end
