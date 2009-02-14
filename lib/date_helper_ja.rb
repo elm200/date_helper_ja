@@ -2,11 +2,17 @@
 # DateHelperJa
 #
 # Japanizes ActionView::Helpers::DateHelper.
+# This is code for Ruby on Rails 2.2.2
 #
 # Released under the MIT license
-# Eiji Sakai <eiji.sakai@softculture.com>
-# http://d.hatena.ne.jp/elm200/
 #
+# Eiji Sakai <eiji.sakai@softculture.com>
+# http://d.hatena.ne.jp/elm200
+#
+# Junya Ishihara <junya@champierre.com>
+# http://champierre.com
+# 
+
 module ActionView
   module Helpers
     class DateTimeSelector
