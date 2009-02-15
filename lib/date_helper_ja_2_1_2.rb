@@ -3,10 +3,14 @@
 # DateHelperJa
 #
 # Japanizes ActionView::Helpers::DateHelper.
+# This is code for Ruby on Rails 2.1.2
 #
 # Released under the MIT license
 # Eiji Sakai <eiji.sakai@softculture.com>
-# http://d.hatena.ne.jp/elm200/
+# http://d.hatena.ne.jp/elm200
+#
+# Hideki Hayashi <hideki.gml@gmail.com>
+# http://d.hatena.ne.jp/milk1000cc
 #
 module ActionView
   module Helpers
@@ -96,8 +100,74 @@ module ActionView
       end
 
       def select_year_with_jp_time_unit(date, options = {}, html_options = {})
-        select_year_without_jp_time_unit(date, options, html_options).chomp  + (options[:use_jp_year] != false && !options[:use_hidden] ? '年' : '') + "\n"
+       # select_year_without_jp_time_unit(date, options, html_options).chomp  + (options[:use_jp_year] != false && !options[:use_hidden] ? '年' : '') + "\n"
+        val = date ? (date.kind_of?(Fixnum) ? date : date.year) : ''
+        if options[:use_hidden]
+          hidden_html(options[:field_name] || 'year', val, options)
+        else
+          year_options = []
+          y = date ? (date.kind_of?(Fixnum) ? (y = (date == 0) ? Date.today.year : date) : date.year) : Date.today.year
+
+          start_year, end_year = (options[:start_year] || y-5), (options[:end_year] || y+5)
+          step_val = start_year < end_year ? 1 : -1
+          start_year.step(end_year, step_val) do |year|
+            year_caption = build_year_caption(year, options)
+            year_options << ((val == year) ?
+              content_tag(:option, year_caption, :value => year, :selected => "selected") :
+              content_tag(:option, year_caption, :value => year)
+            )
+            year_options << "\n"
+          end
+          
+          era_format = options[:era_format] || :ja_long
+          postfix = options[:use_jp_year] == false || (options[:use_era_name] == true &&  era_format ==  :ja_long ) ? '' : '年'
+
+          select_html(options[:field_name] || 'year', year_options.join, options, html_options).chomp + postfix + "\n"
+        end
+
       end
+      
+      def build_year_caption(year, options)
+        if options[:use_era_name] == true 
+           build_year_with_era_name(year, options)
+        else
+           year
+        end
+      end
+      
+      def build_year_with_era_name(year, options)
+        case options[:era_format]
+        when :ja_short
+          era_formats = {:M => "明%d", :T => "大%d", :S => "昭%d", :H => "平%d"}
+          era_first_years = {:M => '明1', :T => '明45/大1', :S => '大15/昭1', :H => '昭64/平1'}
+        when :alphabet
+          era_formats = {:M => "M%d", :T => "T%d", :S => "S%d", :H => "H%d"}
+          era_first_years = {:M => 'M1', :T => 'M45/T1', :S => 'T15/S1', :H => 'S64/H1'}
+        else # when :ja_long or others
+          era_formats = {:M => "明治%d年", :T => "大正%d年", :S => "昭和%d年", :H => "平成%d年"}
+          era_first_years = {:M => '明治元年', :T => '㍾45年/㍽元年', :S => '㍽15年/㍼元年', :H => '㍼64年/㍻元年'}
+        end
+
+        if year < 1868
+          year
+        elsif year == 1868
+          era_first_years[:M]
+        elsif year < 1912
+          era_formats[:M] % (year - 1867)
+        elsif year == 1912
+          era_first_years[:T]
+        elsif year < 1926
+          era_formats[:T] % (year - 1911)
+        elsif year == 1926
+          era_first_years[:S]
+        elsif year < 1989
+          era_formats[:S] % (year - 1925)
+        elsif year == 1989
+          era_first_years[:H]
+        else
+          era_formats[:H] % (year - 1988)
+        end
+      end      
 
       alias_method_chain :select_minute, :jp_time_unit
       alias_method_chain :select_hour, :jp_time_unit
@@ -146,9 +216,10 @@ module ActionView
           date_or_time_select.insert(0, self.send("select_#{param}", datetime, options_with_prefix(position[param], options.merge(:use_hidden => discard[param]))))
           date_or_time_select.insert(0,
             case param
-              when :hour then (discard[:year] && discard[:day] ? "" : (options[:use_jp_hour] == false ? " &mdash; " : " "))
-              when :minute then (options[:use_jp_minute] == false ? " : "  : "")
-              when :second then options[:include_seconds] ? (options[:use_jp_second] == false ? " : "  : "") : ""
+             # assumes that the date format comes in the order of year, month, day, hour, minute and second.
+              when :hour then (discard[:year] && discard[:day] ? "" : (options[:use_jp_day] == false ? " &mdash; " : " "))
+              when :minute then (options[:use_jp_hour] == false ? " : "  : "")
+              when :second then options[:include_seconds] ? (options[:use_jp_minute] == false ? " : "  : "") : ""
               else ""
             end)
 
