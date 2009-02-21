@@ -36,7 +36,7 @@ module ActionView
       # 0-4   秒      # => 5秒以内
       # 5-9   秒      # => 10秒以内
       # 10-19 秒      # => 20秒以内
-      # 20-39 秒      # => 30秒
+      # 20-39 秒      # => 30秒前後
       # 40-59 秒      # => 1分以内
       # 60-89 秒      # => 1分
       #
@@ -61,7 +61,7 @@ module ActionView
               when 0..4   then '5秒以内'
               when 5..9   then '10秒以内'
               when 10..19 then '20秒以内'
-              when 20..39 then '30秒'
+              when 20..39 then '30秒前後'
               when 40..59 then '1分以内'
               else             '1分'
             end
