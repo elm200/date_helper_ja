@@ -1,0 +1,10 @@
+* 0.2 (2009-02-21)
+ Second release.
+ Now the plugin can be used with Rails 2.1 and Rails 2.2 (I am not sure with Rails 2.0)
+ Era based years(Wareki) can be displayed.
+ distance_of_time_in_words method has been changed slightly. 
+ 
+* 0.1 (2008-04-30)
+ Initial release
+ http://d.hatena.ne.jp/elm200/20070430/1177814782
+ 
