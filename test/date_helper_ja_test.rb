@@ -207,7 +207,7 @@ class DateHelperJaTest < Test::Unit::TestCase
 
   def test_select_year_with_ja_long_era_format
     expected = %(<select id="date_year" name="date[year]">\n)
-    expected << %(<option value=\"1988\">昭和63年</option>\n<option selected=\"selected\" value=\"1989\">㍼64年/㍻元年</option>\n<option value=\"1990\">平成2年</option>\n)
+    expected << %(<option value=\"1988\">昭和63年</option>\n<option selected=\"selected\" value=\"1989\">昭64年/平1年</option>\n<option value=\"1990\">平成2年</option>\n)
     expected << "</select>\n"
 
     assert_equal expected, select_year(Time.mktime(1989, 8, 16), :start_year => 1988, :end_year => 1990, :use_era_name => true)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # DateHelperJa
 #
@@ -66,7 +67,7 @@ module ActionView
             era_first_years = {:M => 'M1', :T => 'M45/T1', :S => 'T15/S1', :H => 'S64/H1'}
           else # when :ja_long or others
             era_formats = {:M => "明治%d年", :T => "大正%d年", :S => "昭和%d年", :H => "平成%d年"}
-            era_first_years = {:M => '明治元年', :T => '㍾45年/㍽元年', :S => '㍽15年/㍼元年', :H => '㍼64年/㍻元年'}
+            era_first_years = {:M => '明治元年', :T => '明45年/大1年', :S => '大15年/昭1年', :H => '昭64年/平1年'}
           end
 
           if year < 1868
