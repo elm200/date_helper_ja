@@ -25,7 +25,7 @@ datetime_select("model", "attr", :use_era_name => true)
 # => "平成21年 4月 29日 13:14"
 
 さらに :era_format というオプションで和暦の表示スタイルを指定できる。
-:ja_long(デフォルト値), :ja_short, :alpha が指定可能。
+:ja_long(デフォルト値), :ja_short, :alphabet が指定可能。
 
 datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_long)
 # => "平成21年 4月 29日 13:14"
