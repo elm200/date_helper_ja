@@ -17,24 +17,24 @@ datetime_select("model", "attr")
 オリジナルの振る舞いに戻したいときは、:use_jp_xxx (xxx = year, month, day, hour, minute, second) というオプションを false に設定する。
 
 datetime_select("model", "attr", :use_jp_hour => false, :use_jp_minute => false)
-# => "2009年 4月 29日 13:14"
+# => "2009年 4月 29日 - 13:14"
 
 :user_era_name というオプションを true にすることで和暦を表示する。
 
 datetime_select("model", "attr", :use_era_name => true)
-# => "平成21年 4月 29日 13:14"
+# => "平成21年 4月 29日 13時14分"
 
 さらに :era_format というオプションで和暦の表示スタイルを指定できる。
 :ja_long(デフォルト値), :ja_short, :alphabet が指定可能。
 
 datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_long)
-# => "平成21年 4月 29日 13:14"
+# => "平成21年 4月 29日 13時14分"
 
 datetime_select("model", "attr", :use_era_name => true, :era_format => :ja_short)
-# => "平21年 4月 29日 13:14"
+# => "平21年 4月 29日 13時14分"
 
 datetime_select("model", "attr", :use_era_name => true, :era_format => :alphabet)
-# => "H21年 4月 29日 13:14"
+# => "H21年 4月 29日 13時14分"
 
 == リンク
 
@@ -42,7 +42,7 @@ datetime_select("model", "attr", :use_era_name => true, :era_format => :alphabet
  
 == 作者
  
-Copyright 2006 (c) Eiji Sakai, under MIT License.
+Copyright 2006 - 2009 (c) Eiji Sakai, under MIT License.
 
 Eiji Sakai <eiji.sakai@softculture.com>
  
