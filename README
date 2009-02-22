@@ -19,7 +19,7 @@ datetime_select("model", "attr")
 datetime_select("model", "attr", :use_jp_hour => false, :use_jp_minute => false)
 # => "2009年 4月 29日 - 13:14"
 
-:user_era_name というオプションを true にすることで和暦を表示する。
+:use_era_name というオプションを true にすることで和暦を表示する。
 
 datetime_select("model", "attr", :use_era_name => true)
 # => "平成21年 4月 29日 13時14分"
