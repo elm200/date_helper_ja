@@ -38,7 +38,7 @@ datetime_select("model", "attr", :use_era_name => true, :era_format => :alphabet
 
 == アプリケーションテンプレート機能(Rails 2.3より使用可)を使い、サンプルアプリを作成する
 
-# rails sample -m http://github.com/elm200/date_helper_ja/raw/master/templates/date_helper_ja.rb
+ % rails sample -m http://github.com/elm200/date_helper_ja/raw/master/templates/date_helper_ja.rb
 
 == リンク
 
