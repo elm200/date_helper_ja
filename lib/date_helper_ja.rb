@@ -3,7 +3,7 @@
 # DateHelperJa
 #
 # Japanizes ActionView::Helpers::DateHelper.
-# This is code for Ruby on Rails 2.2.2
+# This is code for Ruby on Rails >=2.2.2
 #
 # Released under the MIT license
 #
